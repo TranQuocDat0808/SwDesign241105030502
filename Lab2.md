@@ -209,88 +209,88 @@ nonComplianceIssues: Các vấn đề không tuân thủ (List<String>).
 ## Lớp Employee
 
 
-public class Employee {
-    private String employeeId;
-    private String name;
-
-    public Employee(String employeeId, String name) {
-        this.employeeId = employeeId;
-        this.name = name;
+    public class Employee {
+        private String employeeId;
+        private String name;
+    
+        public Employee(String employeeId, String name) {
+            this.employeeId = employeeId;
+            this.name = name;
+        }
+    
+        public String getEmployeeId() {
+            return employeeId;
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        @Override
+        public String toString() {
+            return "Employee ID: " + employeeId + ", Name: " + name;
+        }
     }
-
-    public String getEmployeeId() {
-        return employeeId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee ID: " + employeeId + ", Name: " + name;
-    }
-}
 
 
 
 ## Lớp PayrollSystem
 
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class PayrollSystem {
-    private Map<String, Employee> employees;   // Quản lý thông tin nhân viên
-    private Map<String, Timecard> timecards;    // Quản lý bảng chấm công
-
-    public PayrollSystem() {
-        employees = new HashMap<>();
-        timecards = new HashMap<>();
-    }
-
-    public void addEmployee(String employeeId, String name) {
-        if (employees.containsKey(employeeId)) {
-            System.out.println("Employee with ID " + employeeId + " already exists.");
-            return;
+    import java.util.HashMap;
+    import java.util.Map;
+    
+    public class PayrollSystem {
+        private Map<String, Employee> employees;   // Quản lý thông tin nhân viên
+        private Map<String, Timecard> timecards;    // Quản lý bảng chấm công
+    
+        public PayrollSystem() {
+            employees = new HashMap<>();
+            timecards = new HashMap<>();
         }
-        Employee employee = new Employee(employeeId, name);
-        employees.put(employeeId, employee);
-        timecards.put(employeeId, new Timecard());
-        System.out.println("Added new employee: " + employee);
-    }
-
-    public void updateEmployee(String employeeId, String newName) {
-        Employee employee = employees.get(employeeId);
-        if (employee != null) {
-            employee = new Employee(employeeId, newName);
+    
+        public void addEmployee(String employeeId, String name) {
+            if (employees.containsKey(employeeId)) {
+                System.out.println("Employee with ID " + employeeId + " already exists.");
+                return;
+            }
+            Employee employee = new Employee(employeeId, name);
             employees.put(employeeId, employee);
-            System.out.println("Updated employee: " + employee);
-        } else {
-            System.out.println("Employee with ID " + employeeId + " not found.");
+            timecards.put(employeeId, new Timecard());
+            System.out.println("Added new employee: " + employee);
         }
-    }
-
-    public void deleteEmployee(String employeeId) {
-        Employee employee = employees.remove(employeeId);
-        if (employee != null) {
-            timecards.remove(employeeId);  // Xóa bảng chấm công tương ứng
-            System.out.println("Deleted employee: " + employee);
-        } else {
-            System.out.println("Employee with ID " + employeeId + " not found.");
-        }
-    }
-
-    public void displayEmployees() {
-        if (employees.isEmpty()) {
-            System.out.println("No employees in the system.");
-        } else {
-            System.out.println("Employees in the system:");
-            for (Employee employee : employees.values()) {
-System.out.println(employee);
+    
+        public void updateEmployee(String employeeId, String newName) {
+            Employee employee = employees.get(employeeId);
+            if (employee != null) {
+                employee = new Employee(employeeId, newName);
+                employees.put(employeeId, employee);
+                System.out.println("Updated employee: " + employee);
+            } else {
+                System.out.println("Employee with ID " + employeeId + " not found.");
             }
         }
-    }
+    
+        public void deleteEmployee(String employeeId) {
+            Employee employee = employees.remove(employeeId);
+            if (employee != null) {
+                timecards.remove(employeeId);  // Xóa bảng chấm công tương ứng
+                System.out.println("Deleted employee: " + employee);
+            } else {
+                System.out.println("Employee with ID " + employeeId + " not found.");
+            }
+        }
+    
+        public void displayEmployees() {
+            if (employees.isEmpty()) {
+                System.out.println("No employees in the system.");
+            } else {
+                System.out.println("Employees in the system:");
+                for (Employee employee : employees.values()) {
+    System.out.println(employee);
+                }
+            }
+        }
 
     public void checkIn(String employeeId) {
         Timecard timecard = timecards.get(employeeId);
@@ -327,85 +327,85 @@ System.out.println(employee);
             System.out.println("Employee not found.");
         }
     }
-}
+    }
 
 
 
 ## Lớp Timecard
 
 
-import java.time.LocalDateTime;
-import java.time.Duration;
-
-public class Timecard {
-    private LocalDateTime checkInTime;
-    private LocalDateTime checkOutTime;
-
-    public void checkIn() {
-        this.checkInTime = LocalDateTime.now();
-        System.out.println("Checked in at: " + checkInTime);
-    }
-
-    public void checkOut() {
-        this.checkOutTime = LocalDateTime.now();
-        System.out.println("Checked out at: " + checkOutTime);
-    }
-
-    public long getWorkedHours() {
-        if (checkInTime == null || checkOutTime == null) {
-            return 0;
+    import java.time.LocalDateTime;
+    import java.time.Duration;
+    
+    public class Timecard {
+        private LocalDateTime checkInTime;
+        private LocalDateTime checkOutTime;
+    
+        public void checkIn() {
+            this.checkInTime = LocalDateTime.now();
+            System.out.println("Checked in at: " + checkInTime);
         }
-        Duration duration = Duration.between(checkInTime, checkOutTime);
-        return duration.toHours(); // return hours worked
-    }
-
-    public String getWorkDuration() {
-        if (checkInTime == null || checkOutTime == null) {
-            return "Work time not complete.";
+    
+        public void checkOut() {
+            this.checkOutTime = LocalDateTime.now();
+            System.out.println("Checked out at: " + checkOutTime);
         }
-        Duration duration = Duration.between(checkInTime, checkOutTime);
-        return String.format("%d hours and %d minutes", duration.toHours(), duration.toMinutesPart());
+    
+        public long getWorkedHours() {
+            if (checkInTime == null || checkOutTime == null) {
+                return 0;
+            }
+            Duration duration = Duration.between(checkInTime, checkOutTime);
+            return duration.toHours(); // return hours worked
+        }
+    
+        public String getWorkDuration() {
+            if (checkInTime == null || checkOutTime == null) {
+                return "Work time not complete.";
+            }
+            Duration duration = Duration.between(checkInTime, checkOutTime);
+            return String.format("%d hours and %d minutes", duration.toHours(), duration.toMinutesPart());
+        }
     }
-}
-
+    
 
 
 ## Lớp PayrollSystemTest
 
 
-public class PayrollSystemTest {
-    public static void main(String[] args) {
-        // Khởi tạo hệ thống trả lương
-        PayrollSystem payrollSystem = new PayrollSystem();
-
-        System.out.println("Adding employees...");
-        payrollSystem.addEmployee("E001", "John Doe");
-        payrollSystem.addEmployee("E002", "Jane Smith");
-
-        System.out.println("\nUpdating employee information...");
-        payrollSystem.updateEmployee("E001", "John A. Doe");
-
-        System.out.println("\nDeleting employee...");
-        payrollSystem.deleteEmployee("E002");
-
-        System.out.println("\nDisplaying all employees...");
-        payrollSystem.displayEmployees();
-
-        System.out.println("\nEmployee E001 checking in...");
-        payrollSystem.checkIn("E001");
-
-        try {
-            Thread.sleep(5000); // Giả lập nhân viên làm việc 5 giây
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public class PayrollSystemTest {
+        public static void main(String[] args) {
+            // Khởi tạo hệ thống trả lương
+            PayrollSystem payrollSystem = new PayrollSystem();
+    
+            System.out.println("Adding employees...");
+            payrollSystem.addEmployee("E001", "John Doe");
+            payrollSystem.addEmployee("E002", "Jane Smith");
+    
+            System.out.println("\nUpdating employee information...");
+            payrollSystem.updateEmployee("E001", "John A. Doe");
+    
+            System.out.println("\nDeleting employee...");
+            payrollSystem.deleteEmployee("E002");
+    
+            System.out.println("\nDisplaying all employees...");
+            payrollSystem.displayEmployees();
+    
+            System.out.println("\nEmployee E001 checking in...");
+            payrollSystem.checkIn("E001");
+    
+            try {
+                Thread.sleep(5000); // Giả lập nhân viên làm việc 5 giây
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+    
+            System.out.println("\nEmployee E001 checking out...");
+            payrollSystem.checkOut("E001");
+    
+            System.out.println("\nDisplaying work duration for E001...");
+            payrollSystem.displayWorkDuration("E001");
+    
+            payrollSystem.displayWorkedHours("E001");
         }
-
-        System.out.println("\nEmployee E001 checking out...");
-        payrollSystem.checkOut("E001");
-
-        System.out.println("\nDisplaying work duration for E001...");
-        payrollSystem.displayWorkDuration("E001");
-
-        payrollSystem.displayWorkedHours("E001");
     }
-}
